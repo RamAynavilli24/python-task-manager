@@ -115,7 +115,7 @@ def create_app(test_config: Optional[dict] = None) -> Flask:
     @app.get("/api/tasks")
     def list_tasks():
         with get_db_connection() as connection:
-            return jsonify(models.list_tasks(connection)), 200
+            return jsonify(tasks=models.list_tasks(connection)), 200
 
     @app.post("/api/tasks")
     def create_task():
@@ -148,7 +148,7 @@ def create_app(test_config: Optional[dict] = None) -> Flask:
             task = models.update_task(connection, task_id, changes)
         if task is None:
             return jsonify(error="Task not found."), 404
-        return jsonify(task), 200
+        return jsonify(task), 201
 
     @app.delete("/api/tasks/<int:task_id>")
     def delete_task(task_id: int):
