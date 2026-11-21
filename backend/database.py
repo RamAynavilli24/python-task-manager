@@ -23,7 +23,10 @@ CREATE TABLE IF NOT EXISTS tasks (
 def get_db_connection() -> Iterator[sqlite3.Connection]:
     """Yield a configured connection and always close it afterward."""
     database_path = current_app.config["DATABASE"]
-    connection = sqlite3.connect(database_path)
+    connection = sqlite3.connect(
+        database_path,
+        uri=current_app.config.get("DATABASE_URI", False),
+    )
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys = ON")
     try:
@@ -41,7 +44,10 @@ def initialize_database(database_path: Optional[str] = None) -> None:
     if database_path is None:
         database_path = current_app.config["DATABASE"]
 
-    connection = sqlite3.connect(database_path)
+    connection = sqlite3.connect(
+        database_path,
+        uri=current_app.config.get("DATABASE_URI", False),
+    )
     try:
         connection.executescript(SCHEMA)
         connection.commit()

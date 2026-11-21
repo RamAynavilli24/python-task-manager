@@ -81,14 +81,22 @@ def create_app(test_config: Optional[dict] = None) -> Flask:
     app = Flask(__name__)
     app.config.from_mapping(
         DATABASE=os.path.join(app.instance_path, "tasks.sqlite3"),
+        DATABASE_URI=False,
     )
     if test_config:
         app.config.update(test_config)
 
     database_path = app.config["DATABASE"]
-    if database_path != ":memory:":
+    if database_path == ":memory:":
+        database_path = f"file:task-manager-{id(app)}?mode=memory&cache=shared"
+        app.config.update(DATABASE=database_path, DATABASE_URI=True)
+        app.extensions["database_keeper"] = sqlite3.connect(
+            database_path,
+            uri=True,
+        )
+    else:
         Path(database_path).parent.mkdir(parents=True, exist_ok=True)
-    initialize_database(database_path)
+    initialize_database()
 
     @app.after_request
     def add_cors_headers(response):

@@ -19,6 +19,31 @@ def test_get_tasks_starts_empty(client):
     assert response.get_json() == []
 
 
+def test_tasks_are_returned_newest_first(client):
+    first = client.post("/api/tasks", json={"title": "First task"}).get_json()
+    second = client.post("/api/tasks", json={"title": "Second task"}).get_json()
+
+    response = client.get("/api/tasks")
+
+    assert response.status_code == 200
+    assert [task["id"] for task in response.get_json()] == [
+        second["id"],
+        first["id"],
+    ]
+
+
+def test_in_memory_database_persists_between_requests():
+    app = create_app({"TESTING": True, "DATABASE": ":memory:"})
+
+    with app.test_client() as test_client:
+        created = test_client.post("/api/tasks", json={"title": "Keep me"})
+        listed = test_client.get("/api/tasks")
+
+    assert created.status_code == 201
+    assert listed.status_code == 200
+    assert listed.get_json() == [created.get_json()]
+
+
 def test_create_and_retrieve_task(client):
     created = client.post(
         "/api/tasks",
