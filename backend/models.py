@@ -12,7 +12,7 @@ Task = Dict[str, Any]
 def list_tasks(connection: sqlite3.Connection) -> List[Task]:
     rows = connection.execute(
         "SELECT id, title, description, status, created_at "
-        "FROM tasks ORDER BY created_at ASC, id ASC"
+        "FROM tasks ORDER BY created_at DESC, id DESC"
     ).fetchall()
     return [dict(row) for row in rows]
 

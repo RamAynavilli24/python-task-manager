@@ -4,7 +4,7 @@ const API_URL = "http://127.0.0.1:5000/api/tasks";
 const STATUS_LABELS = {
   todo: "To do",
   in_progress: "In progress",
-  done "Completed",
+  done: "Completed",
 };
 
 const taskList = document.querySelector("#task-list");
@@ -193,7 +193,7 @@ async function updateTaskStatus(task, select) {
 async function deleteTask(task, button) {
   button.disabled = true;
   try {
-    await requestJson(`${API_URL}/${task.id}`, { method: "PATCH" });
+    await requestJson(`${API_URL}/${task.id}`, { method: "DELETE" });
     showNotice("Task deleted.", "success");
     await loadTasks(false);
   } catch (error) {
