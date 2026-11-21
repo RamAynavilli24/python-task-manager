@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f6fb">
+    <title>Taskflow | Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Taskflow home">
+          <span class="brand-mark" aria-hidden="true">T</span>
+          <span>taskflow</span>
+        </a>
+        <p class="topbar-caption">Your work, in a clearer flow.</p>
+      </header>
+
+      <main class="main-content">
+        <section class="page-heading" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">WORKSPACE</p>
+            <h1 id="page-title">Task dashboard</h1>
+            <p class="page-subtitle">Plan your day and keep the important things moving.</p>
+          </div>
+          <div class="date-chip" id="today-date" aria-label="Today's date"></div>
+        </section>
+
+        <section class="summary-grid" aria-label="Task summary">
+          <article class="summary-card">
+            <span class="summary-icon summary-icon-total" aria-hidden="true">▤</span>
+            <div>
+              <p class="summary-label">Total tasks</p>
+              <p class="summary-value" id="total-count">—</p>
+            </div>
+          </article>
+          <article class="summary-card">
+            <span class="summary-icon summary-icon-progress" aria-hidden="true">◷</span>
+            <div>
+              <p class="summary-label">In progress</p>
+              <p class="summary-value" id="progress-count">—</p>
+            </div>
+          </article>
+          <article class="summary-card">
+            <span class="summary-icon summary-icon-done" aria-hidden="true">✓</span>
+            <div>
+              <p class="summary-label">Completed</p>
+              <p class="summary-value" id="completed-count">—</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="workspace-grid">
+          <section class="panel task-panel" aria-labelledby="tasks-heading">
+            <div class="panel-heading task-panel-heading">
+              <div>
+                <h2 id="tasks-heading">All tasks</h2>
+                <p class="panel-subtitle">A little progress adds up.</p>
+              </div>
+              <button class="button button-secondary refresh-button" id="refresh-button" type="button">
+                <span aria-hidden="true">↻</span> Refresh
+              </button>
+            </div>
+            <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+            <div class="task-list" id="task-list" aria-live="polite">
+              <div class="state-message">
+                <span class="spinner" aria-hidden="true"></span>
+                <p>Loading your tasks…</p>
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel form-panel" aria-labelledby="form-heading">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">MAKE IT HAPPEN</p>
+                <h2 id="form-heading">Add a task</h2>
+              </div>
+              <span class="form-heading-icon" aria-hidden="true">＋</span>
+            </div>
+            <form id="task-form" novalidate>
+              <label for="title">Task title <span class="required-mark">*</span></label>
+              <input id="title" name="title" type="text" maxlength="200" placeholder="e.g. Prepare project update" required>
+
+              <label for="description">Description <span class="optional-label">Optional</span></label>
+              <textarea id="description" name="description" rows="4" maxlength="2000" placeholder="Add a few details to help you get started…"></textarea>
+
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="todo">To do</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Completed</option>
+              </select>
+
+              <button class="button button-primary submit-button" id="submit-button" type="submit">
+                <span aria-hidden="true">＋</span> Create task
+              </button>
+              <p class="form-footnote">Fields marked <span class="required-mark">*</span> are required.</p>
+            </form>
+          </aside>
+        </section>
+      </main>
+      <footer class="footer">Stay focused. One task at a time.</footer>
+    </div>
+  </body>
+</html>
